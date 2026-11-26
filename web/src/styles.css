@@ -1,0 +1,315 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Atkinson Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Atkinson Mono';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../node_modules/@fontsource-variable/atkinson-hyperlegible-mono/files/atkinson-hyperlegible-mono-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@theme {
+  /* Atkinson Hyperlegible keeps 0/O and 1/I/l apart, which matters for service tags. */
+  --font-sans: 'Atkinson Next', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Atkinson Mono', ui-monospace, monospace;
+
+  /* Spruce chrome, white working sheet, cool grey around it. Colour otherwise only means lifecycle state. */
+  --color-chassis: #edf1f0;
+  --color-chassis-2: #e0e7e6;
+  --color-sheet: #ffffff;
+  --color-ink: #132a2f;
+  --color-ink-2: #4a5f63;
+  --color-ink-3: #72878a;
+  --color-rule: #d2dbda;
+  --color-rule-2: #e9eeed;
+  --color-petrol: #0d6b77;
+  --color-petrol-deep: #08505a;
+  --color-petrol-wash: #e3eff0;
+  --color-spruce: #173a3f;
+  --color-spruce-2: #244c52;
+  --color-spruce-ink: #d6e5e4;
+  --color-spruce-mute: #8fabaa;
+
+  --color-covered: #2e8f7d;
+  --color-lapsed: #d68a1f;
+  --color-replace: #9a3e7b;
+  --color-review: #c9432c;
+  --color-lapsed-wash: #f8ecd6;
+  --color-replace-wash: #f2e2ed;
+  --color-review-wash: #f9e4df;
+  --color-covered-wash: #dff1ed;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.625rem;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  button, select, input[type='checkbox'], summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-petrol);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-petrol-wash);
+  }
+}
+
+.app {
+  height: 100dvh;
+  background: var(--color-chassis);
+  color: var(--color-ink);
+  font-size: var(--text-base);
+  line-height: 1.45;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer components {
+/* ---------- form controls ---------- */
+
+.input {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-rule);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--color-ink);
+  font-size: var(--text-base);
+}
+.input:hover {
+  border-color: var(--color-ink-3);
+}
+.input:focus-visible {
+  outline-offset: 0;
+  border-color: var(--color-petrol);
+}
+.input[aria-invalid='true'] {
+  border-color: var(--color-review);
+}
+textarea.input {
+  height: auto;
+  padding: 8px 10px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: 5px;
+  background: var(--color-sheet);
+  font-weight: 560;
+  white-space: nowrap;
+}
+.btn:hover:not(:disabled) {
+  border-color: var(--color-ink-3);
+  background: #fff;
+}
+.btn:disabled {
+  opacity: 0.5;
+}
+.btn-primary {
+  border-color: var(--color-petrol);
+  background: var(--color-petrol);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  border-color: var(--color-petrol-deep);
+  background: var(--color-petrol-deep);
+}
+.btn-quiet {
+  border-color: transparent;
+  background: transparent;
+}
+.btn-quiet:hover:not(:disabled) {
+  border-color: transparent;
+  background: var(--color-chassis);
+}
+.btn-danger {
+  color: var(--color-review);
+}
+.btn-sm {
+  height: 28px;
+  padding: 0 9px;
+  font-size: var(--text-sm);
+}
+}
+
+/* ---------- inventory list ---------- */
+
+.list {
+  container-type: inline-size;
+}
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 20px;
+  align-items: center;
+  padding: 0 20px;
+}
+.c-user, .c-model, .c-site {
+  display: none;
+  min-width: 0;
+}
+@container (min-width: 600px) {
+  .row {
+    grid-template-columns: 180px minmax(0, 1fr) 220px;
+  }
+  .c-user {
+    display: block;
+  }
+}
+@container (min-width: 860px) {
+  .row {
+    grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr) 220px;
+  }
+  .c-model {
+    display: block;
+  }
+}
+.row.with-site {
+  --site: 56px;
+}
+@container (min-width: 1000px) {
+  .row.with-site {
+    grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr) var(--site) 220px;
+  }
+  .row.with-site .c-site {
+    display: block;
+  }
+}
+
+/* ---------- lifecycle track ----------
+   One shared time axis for every row. --a is where warranty ends, --b where the
+   workstation becomes replacement eligible, --today is the vertical "today" line.
+   Colour left of today is solid (what has happened); right of today is faint (what is scheduled). */
+
+.life {
+  position: relative;
+  height: 100%;
+  background:
+    linear-gradient(var(--color-ink), var(--color-ink)) no-repeat var(--today) 0 / 1px 100%,
+    linear-gradient(to right, var(--color-rule-2) 1px, transparent 1px) 0 0 / calc(100% / var(--years)) 100%;
+}
+.life-track {
+  --g: linear-gradient(to right, var(--color-covered) 0 var(--a), var(--color-lapsed) var(--a) var(--b), var(--color-replace) var(--b) 100%);
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 1px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%);
+  mask-image: linear-gradient(to right, transparent, #000 9%);
+}
+.life-track::before, .life-track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--g);
+}
+.life-track::before {
+  opacity: 0.2;
+}
+.life-track::after {
+  clip-path: inset(0 calc(100% - var(--today)) 0 0);
+}
+.life-track.is-retired {
+  --g: var(--color-ink-3);
+}
+.life-track.is-retired::after {
+  opacity: 0.45;
+}
+.life-track.is-unknown {
+  -webkit-mask-image: none;
+  mask-image: none;
+  height: 0;
+  margin-top: 0;
+  border-top: 1px dashed var(--color-ink-3);
+}
+.life-track.is-unknown::before, .life-track.is-unknown::after {
+  display: none;
+}
+/* A replacement hold hatches the eligible stretch. */
+.life-hold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: var(--b);
+  z-index: 1;
+  background: repeating-linear-gradient(135deg, var(--color-sheet) 0 2px, transparent 2px 5px);
+}
+.life-lg .life-track {
+  height: 16px;
+  margin-top: -8px;
+}
+
+.life-axis {
+  container-type: inline-size;
+}
+@container (max-width: 330px) {
+  .life-axis .odd {
+    display: none;
+  }
+}
+
+.swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+@keyframes pop-in {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+}
+.sheet-in {
+  animation: sheet-in 0.18s ease-out;
+}
+.pop-in {
+  animation: pop-in 0.16s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet-in, .pop-in {
+    animation: none;
+  }
+}
+
